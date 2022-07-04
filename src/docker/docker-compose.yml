@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_DATABASE: marketdb
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - vol_mysql:/var/lib/mysql/
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8081:8080
+
+volumes:
+  vol_mysql:
