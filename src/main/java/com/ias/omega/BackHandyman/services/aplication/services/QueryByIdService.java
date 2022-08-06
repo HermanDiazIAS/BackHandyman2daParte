@@ -1,6 +1,5 @@
 package com.ias.omega.BackHandyman.services.aplication.services;
 
-import com.ias.omega.BackHandyman.infrastructure.exceptions.ResourceNotFoundException;
 import com.ias.omega.BackHandyman.infrastructure.models.services.ServiceDTO;
 import com.ias.omega.BackHandyman.services.aplication.models.ServicesClient;
 import com.ias.omega.BackHandyman.services.aplication.ports.input.QueryByIdUseCase;

@@ -15,4 +15,12 @@ public interface ServiceDetailRepository extends JpaRepository<ServicesDetail,Lo
 
     @Query(nativeQuery = true,value = "select * from register_service where id_service = ?1 and `status` = 1")
     public List<ServicesDetail> validateServiceCompleted(Integer IdService);
+
+    @Query(value="select * from register_service r where r.id_technical = ?1",nativeQuery = true)
+    public List<ServicesDetail> queryServices(String idTechnical);
+
+    @Query(value="select r.* from register_service r where r.id_technical = :idTechnical and start_date >= :startDate and end_date <= :endDate",nativeQuery = true)
+    public List<ServicesDetail> queryServices(String idTechnical, String startDate, String endDate);
+
+
 }

@@ -1,19 +1,12 @@
 package com.ias.omega.BackHandyman.servicesdetail.aplication.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ias.omega.BackHandyman.services.aplication.domain.Services;
 import com.ias.omega.BackHandyman.services.aplication.models.ServicesClient;
 import com.ias.omega.BackHandyman.servicesdetail.aplication.domain.valueObjs.*;
 import com.ias.omega.BackHandyman.technicals.aplication.models.Technicals;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "register_service")
@@ -40,9 +33,11 @@ public class ServicesDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_service",insertable=false, updatable=false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ServicesClient servicesClient;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "id_technical",insertable=false, updatable=false)
     private Technicals technicals;
 

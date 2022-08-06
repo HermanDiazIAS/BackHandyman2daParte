@@ -20,4 +20,6 @@ public interface ServicesRespository extends JpaRepository<ServicesClient,Long>{
     @Query(nativeQuery = true,value="select * from services  where services.id not in (select register_service.id_service  from register_service where `status`=?1)")
     public List<ServicesClient> queryByStatus(Integer state);
 
+
+
 }

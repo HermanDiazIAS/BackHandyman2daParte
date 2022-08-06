@@ -1,7 +1,6 @@
 package com.ias.omega.BackHandyman.infrastructure.adapters.output;
 
 import com.ias.omega.BackHandyman.services.aplication.models.ServicesClient;
-import com.ias.omega.BackHandyman.services.aplication.ports.output.ServicesRespository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

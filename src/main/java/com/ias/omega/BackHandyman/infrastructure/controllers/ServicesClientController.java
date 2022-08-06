@@ -4,6 +4,7 @@ import com.ias.omega.BackHandyman.infrastructure.models.services.ServiceDTO;
 import com.ias.omega.BackHandyman.services.aplication.services.QueryByIdService;
 import com.ias.omega.BackHandyman.services.aplication.services.QueryServicesAll;
 import com.ias.omega.BackHandyman.services.aplication.services.QueryServicesByStatusService;
+import com.ias.omega.BackHandyman.servicesdetail.aplication.services.QueryServicesByTechnical;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ public class ServicesClientController {
     @Autowired
     private QueryServicesByStatusService queryServicesByStatus;
 
+    @Autowired
+    private QueryServicesByTechnical servicesByTechnical;
+
     @GetMapping("/services")
     public ResponseEntity<?> getServices(){
         List<ServiceDTO> responseData = queryServicesAll.execute(1L);
@@ -43,4 +47,6 @@ public class ServicesClientController {
     public ResponseEntity<?> getServiceByStatus(@PathVariable(value = "state") Integer state){
         return new ResponseEntity<>(queryServicesByStatus.execute(state), HttpStatus.OK);
     }
+
+
 }

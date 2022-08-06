@@ -6,7 +6,6 @@ import com.ias.omega.BackHandyman.technicals.aplication.ports.input.QueryByIdTec
 import com.ias.omega.BackHandyman.technicals.aplication.ports.output.TechnicalsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,9 +16,14 @@ public class QueryByIdTechnicalService implements QueryByIdTechnical {
     @Autowired
     private TechnicalsRepository repository;
 
-
     @Override
-    public TechnicalDTO execute(Long aLong) {
-        return null;
+    public TechnicalDTO execute(String s) {
+        TechnicalDTO dto= null;
+        Optional<Technicals> optionalTec =  repository.queryTechnicalById(s);
+        if (optionalTec.isPresent()){
+            dto = TechnicalDTO.fromToDomain(optionalTec.get());
+        }
+        return dto;
     }
+
 }

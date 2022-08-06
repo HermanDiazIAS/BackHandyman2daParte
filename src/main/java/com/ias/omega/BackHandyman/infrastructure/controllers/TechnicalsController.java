@@ -29,5 +29,10 @@ public class TechnicalsController {
     public ResponseEntity<?> getTechnicals(){
         return new ResponseEntity<>(queryTechnicalsAllService.execute(0L), HttpStatus.OK);
     }
+    @GetMapping("/technicals/{idTechnical}")
+    public ResponseEntity<?> getTechnicalById(@PathVariable String idTechnical){
+
+        return ResponseEntity.status(HttpStatus.OK).body(queryByIdTechnical.execute(idTechnical));
+    }
 
 }

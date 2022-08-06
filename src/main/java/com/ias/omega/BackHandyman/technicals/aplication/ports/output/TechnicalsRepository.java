@@ -11,9 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface TechnicalsRepository extends JpaRepository<Technicals, Long> {
-    @Query(nativeQuery = true,value = "select * from technicals where id = ?1")
+    @Query(value = "select * from technicals where id = ?1", nativeQuery = true)
     public Optional<Technicals> queryTechnicalById(String IdTechnical);
 
     @Query(nativeQuery = true,value = "select id,name_technical,if(type_document ='Cédula de extrangería','CE',type_document ) as type_document from technicals ORDER BY id")
     public List<Technicals> queryAllTechnicals();
+
 }

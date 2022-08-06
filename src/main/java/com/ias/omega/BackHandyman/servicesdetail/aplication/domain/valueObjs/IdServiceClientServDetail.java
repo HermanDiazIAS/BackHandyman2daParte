@@ -1,11 +1,8 @@
 package com.ias.omega.BackHandyman.servicesdetail.aplication.domain.valueObjs;
 
-import com.ias.omega.BackHandyman.services.aplication.models.ServicesClient;
-import com.ias.omega.BackHandyman.services.aplication.ports.output.ServicesRespository;
 import org.apache.commons.lang3.Validate;
 
 import javax.persistence.Column;
-import java.util.Optional;
 
 public class IdServiceClientServDetail {
     @Column(name = "id_service",length = 11)
