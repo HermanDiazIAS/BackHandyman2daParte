@@ -9,6 +9,18 @@ public class HoursWorked {
     private String extraNightHours;
     private String extraSundayHours;
 
+    public HoursWorked(String normalHours, String nightHours, String sundayHours, String extraNormalHours, String extraNightHours, String extraSundayHours) {
+        this.normalHours = normalHours;
+        this.nightHours = nightHours;
+        this.sundayHours = sundayHours;
+        this.extraNormalHours = extraNormalHours;
+        this.extraNightHours = extraNightHours;
+        this.extraSundayHours = extraSundayHours;
+    }
+
+    public HoursWorked() {
+    }
+
     public String getNormalHours() {
         return normalHours;
     }
