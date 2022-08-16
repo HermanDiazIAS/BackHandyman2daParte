@@ -1,6 +1,5 @@
 package com.ias.omega.BackHandyman.infrastructure.controllers;
 
-import com.ias.omega.BackHandyman.servicesdetail.aplication.models.ServicesDetail;
 import com.ias.omega.BackHandyman.servicesdetail.aplication.ports.input.QueryServicesByTechnicalUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,6 @@ class ServiceDetailControllerTest {
         HashMap<String, String> data = new HashMap<>();
         data.put("idTechnical",idTechnical);
         data.put("week",week);
-
-
 
     }
 }

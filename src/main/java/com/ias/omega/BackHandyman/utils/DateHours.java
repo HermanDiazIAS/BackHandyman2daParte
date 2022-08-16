@@ -25,15 +25,15 @@ public class DateHours {
                        new IdServDetail(1L),new IdTechnicalServDetail("1152669883"), new IdServiceClientServDetail(1L),
                        new StartDateServDetail(converterDate("2022-07-26 01:00:50.0")), new EndDateServDetail(converterDate("2022-07-26 23:00:08.0")),new StatusServDetail(1)
                     )
-                    ,
-                    new ServicesDetail(
-                            new IdServDetail(2L),new IdTechnicalServDetail("1152669883"), new IdServiceClientServDetail(1L),
-                            new StartDateServDetail(converterDate("2022-07-27 01:00:31.0")), new EndDateServDetail(converterDate("2022-07-27 23:00:33.0")),new StatusServDetail(1)
-                    ),
-                    new ServicesDetail(
-                            new IdServDetail(3L),new IdTechnicalServDetail("1152669883"), new IdServiceClientServDetail(1L),
-                            new StartDateServDetail(converterDate("2022-07-28 01:00:57.0")), new EndDateServDetail(converterDate("2022-07-28 23:00:59.0")),new StatusServDetail(1)
-                    )
+//                    ,
+//                    new ServicesDetail(
+//                            new IdServDetail(2L),new IdTechnicalServDetail("1152669883"), new IdServiceClientServDetail(1L),
+//                            new StartDateServDetail(converterDate("2022-07-27 01:00:31.0")), new EndDateServDetail(converterDate("2022-07-27 23:00:33.0")),new StatusServDetail(1)
+//                    ),
+//                    new ServicesDetail(
+//                            new IdServDetail(3L),new IdTechnicalServDetail("1152669883"), new IdServiceClientServDetail(1L),
+//                            new StartDateServDetail(converterDate("2022-07-28 01:00:57.0")), new EndDateServDetail(converterDate("2022-07-28 23:00:59.0")),new StatusServDetail(1)
+//                    )
             );
         } catch (ParseException e) {
             System.out.println("error --> "+ e.getMessage());
@@ -47,6 +47,5 @@ public class DateHours {
       return fecha;
    }
 
-   //formato.format("2022-07-26 01:00:50.0")
 
 }

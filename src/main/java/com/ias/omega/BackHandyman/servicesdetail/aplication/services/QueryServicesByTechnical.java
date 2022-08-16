@@ -33,6 +33,7 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
         }
 
         List<ServicesDetail> listServiceDetail = serviceDetailRepository.queryServices(id, startDate, endDate);
+
         HoursWorked hoursWorked = numberHours(listServiceDetail);
         return hoursWorked;
     }

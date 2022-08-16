@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-
+@SpringBootTest
 class QueryServicesByTechnicalTest {
 
     @Autowired
@@ -37,7 +38,7 @@ class QueryServicesByTechnicalTest {
 
     @Test
     @DisplayName("Test de la clase buscar servicios por técnico")
-    void queryHoursTest() {
+    void executeTest() {
 
         String idTechnical = "1152669883";
         String week = "SEMANA30";
@@ -48,14 +49,19 @@ class QueryServicesByTechnicalTest {
 
         var dateHoursWorked = DateHours.DATE_HOURS_WORKED;
 
+
+        //serviceDetailRepository.queryServices("1152669883", "2022-08-08 00:00:00", "2022-08-14 24:00:00");
         List<ServicesDetail> servicesDetails = (List<ServicesDetail>) DateHours.DAYS_WORKED;
 
         /**Retorna lista de dias laborados*/
-       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" )).thenReturn((List<ServicesDetail>) DateHours.DAYS_WORKED);
-        queryServicesByTechnical.execute(data);
-//        HoursWorked hoursWorked = queryServicesByTechnical.execute(data);
+//       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
+//               .thenReturn((List<ServicesDetail>) DateHours.DAYS_WORKED);
+       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
+               .thenReturn(servicesDetails);
 
-//        assertEquals("39", hoursWorked.getNormalHours());
+        HoursWorked hoursWorked = queryServicesByTechnical.execute(data);
+
+        //assertEquals("39", hoursWorked.getNormalHours());
 
     }
 }
