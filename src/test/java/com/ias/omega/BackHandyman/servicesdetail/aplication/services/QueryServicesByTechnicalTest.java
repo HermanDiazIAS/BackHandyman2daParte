@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +39,7 @@ class QueryServicesByTechnicalTest {
 
     @Test
     @DisplayName("Test de la clase buscar servicios por técnico")
-    void executeTest() {
+    void executeTest() throws ParseException {
 
         String idTechnical = "1152669883";
         String week = "SEMANA30";
@@ -47,21 +48,22 @@ class QueryServicesByTechnicalTest {
         data.put("idTechnical",idTechnical);
         data.put("week",week);
 
-        var dateHoursWorked = DateHours.DATE_HOURS_WORKED;
+        //var dateHoursWorked = DateHours.DATE_HOURS_WORKED;
 
 
         //serviceDetailRepository.queryServices("1152669883", "2022-08-08 00:00:00", "2022-08-14 24:00:00");
-        List<ServicesDetail> servicesDetails = (List<ServicesDetail>) DateHours.DAYS_WORKED;
+        //List<ServicesDetail> servicesDetails = (List<ServicesDetail>) DateHours.DAYS_WORKED;
 
         /**Retorna lista de dias laborados*/
-//       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
-//               .thenReturn((List<ServicesDetail>) DateHours.DAYS_WORKED);
        when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
-               .thenReturn(servicesDetails);
+               .thenReturn(DateHours.days_worked());
+
+//       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
+//               .thenReturn(servicesDetails);
 
         HoursWorked hoursWorked = queryServicesByTechnical.execute(data);
 
-        //assertEquals("39", hoursWorked.getNormalHours());
+
 
     }
 }

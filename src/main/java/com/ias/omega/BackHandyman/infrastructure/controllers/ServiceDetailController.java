@@ -5,7 +5,9 @@ import com.ias.omega.BackHandyman.servicesdetail.aplication.ports.input.QuerySer
 import com.ias.omega.BackHandyman.servicesdetail.aplication.services.CreatedServiceDetail;
 import com.ias.omega.BackHandyman.utils.WeekNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -14,11 +16,11 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/api/servicesdetail")
+@RequestMapping(value = "/api/servicesdetail",produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 @CrossOrigin(origins = { "http://localhost:4200" })
 public class ServiceDetailController {
     @Autowired
-    private CreatedServiceDetail createdServiceDetail;
+                                                                                                                                                                                                                    private CreatedServiceDetail createdServiceDetail;
     @Autowired
     private QueryServicesByTechnicalUseCase queryServicesByTechnicalUseCase;
 
@@ -27,13 +29,13 @@ public class ServiceDetailController {
         return new ResponseEntity<>(createdServiceDetail.execute(serviceDetailDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/{idTechnical}/{week}")
+//    @GetMapping("/{idTechnical}/{week}")
+    @RequestMapping(value = "/{idTechnical}/{week}", method = RequestMethod.GET)
     public ResponseEntity<?> getServiceByTechnical(@PathVariable String idTechnical, @PathVariable String week){
         HashMap<String, String> data = new HashMap<>();
         data.put("idTechnical",idTechnical);
         data.put("week",week);
-        //queryServicesByTechnicalUseCase.execute(data);
-        return ResponseEntity.status(HttpStatus.OK).body(queryServicesByTechnicalUseCase.execute(data));
+        return ResponseEntity.ok(queryServicesByTechnicalUseCase.execute(data));
     }
 
     @GetMapping("/weeks")
