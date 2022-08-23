@@ -52,14 +52,16 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
         int extraHours = 0;
         int extraHourDay = 0;
         int extraHourNight = 0;
+        int extraDayCount = 0;
+        int extraNightCount7 = 0;
+        int extraNightCount20 = 0;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
         for (ServicesDetail sd : listSD) {
 
-            int extraDayCount = 0;
-            int extraNightCount7 = 0;
-            int extraNightCount20 = 0;
+
+
 
             startHour = String.valueOf(sd.getStartDateServDetail());
             endHour = String.valueOf(sd.getEndDateServDetail().getEndDateServDetail());
@@ -112,7 +114,7 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
                 int dayChange = 24;
                 //sumando las horas anterios en ele dia
                 int cont = (int) (days + hourBegin);
-
+                extraHours = dayCount + nightCount7 + nightCount24;
                 for (int i = hourBegin; i < cont; i++) {
 
                     if (i > dayChange ){
@@ -125,49 +127,72 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
                     }
 
                     if (isSunday){
-                        sundayCount++;
+                        if (extraHours >= 48){
+                            extraSundayCount++;
+                        }else{
+                            sundayCount++;
+                        }
+
                     }else {
 
                         if (i < zeroToSeven) {
-                            nightCount7++;
-                            extraNightCount7++;
+
+                            if (extraHours >= 48){
+                                extraNightCount7++;
+                            }else{
+                                nightCount7++;
+                            }
+
+
                         }
 
                         if (i > six && i < twenty) {
-                            dayCount++;
-                            extraDayCount++;
+
+                            if (extraHours>=48){
+                                extraDayCount++;
+                            }else{
+                                dayCount++;
+                            }
+
                         }
 
                         if (i >= twenty && i <= twentyFour) {
-                            nightCount24++;
-                            extraNightCount20++;
+
+                            if (extraHours>= 48){
+                                extraNightCount20++;
+                            }else{
+                                nightCount24++;
+                            }
+
                         }
 
                     }
                 }
             }
-            extraHours = dayCount + nightCount7 + nightCount24;
-            if (extraHours > 48){
-                if (extraDayCount > 0){
-                    extraHourDay = extraDayCount;
-                }
-                if ((extraNightCount7 + extraNightCount20) > 0){
-                    extraHourNight = extraNightCount7 + extraNightCount20;
-                }
-
-            }
+//            extraHours = dayCount + nightCount7 + nightCount24;
+//            if (extraHours > 48){
+//                if (extraDayCount > 0){
+//                    extraHourDay = extraDayCount;
+//                }
+//                if ((extraNightCount7 + extraNightCount20) > 0){
+//                    extraHourNight = extraNightCount7 + extraNightCount20;
+//                }
+//
+//            }
         }
 
-        if(sundayCount > 48){
-            extraSundayCount = sundayCount - 48 ;
-        }
+//        if(sundayCount > 48){
+//            extraSundayCount = sundayCount - 48 ;
+//        }
 
         hoursWorked = new HoursWorked();
         hoursWorked.setNormalHours(dayCount + "");
         hoursWorked.setNightHours((nightCount7 + nightCount24) + "");
         hoursWorked.setSundayHours(sundayCount + "");
-        hoursWorked.setExtraNormalHours(extraHourDay + "");
-        hoursWorked.setExtraNightHours(extraHourNight + "");
+        //hoursWorked.setExtraNormalHours(extraHourDay + "");
+        hoursWorked.setExtraNormalHours(extraDayCount + "");
+       //hoursWorked.setExtraNightHours(extraHourNight + "");
+        hoursWorked.setExtraNightHours((extraNightCount7+extraNightCount20) + "");
         hoursWorked.setExtraSundayHours(extraSundayCount + "");
         return hoursWorked;
     }
