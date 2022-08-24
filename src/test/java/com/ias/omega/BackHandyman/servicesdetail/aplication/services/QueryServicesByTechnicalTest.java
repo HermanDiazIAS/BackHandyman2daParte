@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class QueryServicesByTechnicalTest {
@@ -48,22 +48,43 @@ class QueryServicesByTechnicalTest {
         data.put("idTechnical",idTechnical);
         data.put("week",week);
 
-        //var dateHoursWorked = DateHours.DATE_HOURS_WORKED;
 
-
-        //serviceDetailRepository.queryServices("1152669883", "2022-08-08 00:00:00", "2022-08-14 24:00:00");
-        //List<ServicesDetail> servicesDetails = (List<ServicesDetail>) DateHours.DAYS_WORKED;
-
-        /**Retorna lista de dias laborados*/
        when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
                .thenReturn(DateHours.days_worked());
 
-//       when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
-//               .thenReturn(servicesDetails);
-
         HoursWorked hoursWorked = queryServicesByTechnical.execute(data);
 
+        assertNotNull(hoursWorked);
 
-
+        assertEquals("13", hoursWorked.getNormalHours());
+        assertEquals("11",hoursWorked.getNightHours());
+        assertEquals("0",hoursWorked.getSundayHours());
+        assertEquals("0",hoursWorked.getExtraNormalHours());
+        assertEquals("0",hoursWorked.getExtraNightHours());
+        assertEquals("0",hoursWorked.getExtraSundayHours());
     }
+
+    @Test
+    @DisplayName("Test de las exception")
+    void executeExceptionTest() throws ParseException {
+
+        String idTechnical = "1152669883";
+        String week = "SEMANA30";
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("idTechnical",idTechnical);
+        data.put("week",week);
+
+
+        when(serviceDetailRepository.queryServices(idTechnical,"2022-07-25 00:00:00", "2022-07-31 24:00:00" ))
+                .thenReturn(DateHours.listEmpty());
+
+        var runtimeException = assertThrows(RuntimeException.class, () -> {
+            queryServicesByTechnical.execute(data);
+        });
+
+        assertEquals(RuntimeException.class , runtimeException.getClass());
+        verify(serviceDetailRepository).queryServices(any(),any(),any());
+    }
+
 }

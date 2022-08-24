@@ -1,6 +1,10 @@
 package com.ias.omega.BackHandyman.servicesdetail.aplication.services;
 
 import static java.time.temporal.ChronoUnit.HOURS;
+
+import com.ias.omega.BackHandyman.infrastructure.validations.ServiceDetailValidations;
+import com.ias.omega.BackHandyman.servicesdetail.aplication.domain.valueObjs.EndDateServDetail;
+import com.ias.omega.BackHandyman.servicesdetail.aplication.domain.valueObjs.StartDateServDetail;
 import com.ias.omega.BackHandyman.servicesdetail.aplication.others.HoursWorked;
 import com.ias.omega.BackHandyman.servicesdetail.aplication.models.ServicesDetail;
 import com.ias.omega.BackHandyman.servicesdetail.aplication.ports.input.QueryServicesByTechnicalUseCase;
@@ -10,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
 public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase {
-
+    @Autowired
+    private ServiceDetailValidations serviceDetailValidations;
     @Autowired
     private ServiceDetailRepository serviceDetailRepository;
 
@@ -33,7 +39,7 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
         }
 
         List<ServicesDetail> listServiceDetail = serviceDetailRepository.queryServices(id, startDate, endDate);
-
+        serviceDetailValidations.validationsServiceDetailException(listServiceDetail.size());
         HoursWorked hoursWorked = numberHours(listServiceDetail);
         return hoursWorked;
     }
@@ -60,11 +66,18 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
 
         for (ServicesDetail sd : listSD) {
 
+            StartDateServDetail startDateServDetail = sd.getStartDateServDetail();
+            EndDateServDetail endDateServDetail = sd.getEndDateServDetail();
+            Date startDateServDetail1 = startDateServDetail.getStartDateServDetail();
+            Date endDateServDetail1 = endDateServDetail.getEndDateServDetail();
 
+            String localDateTimeStart = convertToLocalDateTimeViaInstant(startDateServDetail1);
+            String localDateTimeEnd = convertToLocalDateTimeViaInstant(endDateServDetail1);
 
-
-            startHour = String.valueOf(sd.getStartDateServDetail());
-            endHour = String.valueOf(sd.getEndDateServDetail().getEndDateServDetail());
+            //startHour = String.valueOf(sd.getStartDateServDetail());
+            startHour = localDateTimeStart;
+            //endHour = String.valueOf(sd.getEndDateServDetail().getEndDateServDetail());
+            endHour = localDateTimeEnd;
 
             boolean isSunday = false;
 
@@ -86,24 +99,7 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
             if ((hourInitial >= 0 && minuteInitial >= 0) && (hourFinal <= 23 && minuteFinal <= 59)) {
 
                 int hourBegin = Integer.parseInt(dateTime1.getHour() + "");
-                int hourFin = Integer.parseInt(dateTime2.getHour() + "");
-
-                int yearInit = start.getYear();
-                int monthInit = start.getMonthValue();
-                int dayInit = start.getDayOfMonth();
-                int hourInit = start.getHour();
-                int minuteInit = start.getMinute();
-
-                int yearFinish = finish.getYear();
-                int monthFinish = finish.getMonthValue();
-                int dayFinish = finish.getDayOfMonth();
-                int hourFinish = finish.getHour();
-                int minuteFinish = finish.getMinute();
-
-                LocalDateTime begin = LocalDateTime.of(yearInit, monthInit, dayInit,hourInit,minuteInit);
-                LocalDateTime fin = LocalDateTime.of(yearFinish, monthFinish, dayFinish,hourFinish,minuteFinish);
-
-                long days = HOURS.between(begin, fin);
+                long days = HOURS.between(getHourBegin(start), getHourFinish(finish));
 
                 /**Variables ciclo*/
                 int zeroToSeven = 7;
@@ -143,7 +139,6 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
                                 nightCount7++;
                             }
 
-
                         }
 
                         if (i > six && i < twenty) {
@@ -165,25 +160,12 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
                             }
 
                         }
-
                     }
                 }
             }
-//            extraHours = dayCount + nightCount7 + nightCount24;
-//            if (extraHours > 48){
-//                if (extraDayCount > 0){
-//                    extraHourDay = extraDayCount;
-//                }
-//                if ((extraNightCount7 + extraNightCount20) > 0){
-//                    extraHourNight = extraNightCount7 + extraNightCount20;
-//                }
-//
-//            }
+
         }
 
-//        if(sundayCount > 48){
-//            extraSundayCount = sundayCount - 48 ;
-//        }
 
         hoursWorked = new HoursWorked();
         hoursWorked.setNormalHours(dayCount + "");
@@ -195,5 +177,34 @@ public class QueryServicesByTechnical implements QueryServicesByTechnicalUseCase
         hoursWorked.setExtraNightHours((extraNightCount7+extraNightCount20) + "");
         hoursWorked.setExtraSundayHours(extraSundayCount + "");
         return hoursWorked;
+    }
+
+    public String convertToLocalDateTimeViaInstant(Date dateToConvert){
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        LocalDateTime localDateTime = dateToConvert.toInstant()
+                 .atZone(ZoneId.systemDefault())
+                 .toLocalDateTime();
+        return localDateTime.format(formatter);
+    }
+
+    private LocalDateTime getHourBegin(LocalDateTime start){
+
+        int yearInit = start.getYear();
+        int monthInit = start.getMonthValue();
+        int dayInit = start.getDayOfMonth();
+        int hourInit = start.getHour();
+        int minuteInit = start.getMinute();
+
+
+        return LocalDateTime.of(yearInit, monthInit, dayInit,hourInit,minuteInit);
+
+    }
+    private LocalDateTime getHourFinish(LocalDateTime finish) {
+        int yearFinish = finish.getYear();
+        int monthFinish = finish.getMonthValue();
+        int dayFinish = finish.getDayOfMonth();
+        int hourFinish = finish.getHour();
+        int minuteFinish = finish.getMinute();
+        return LocalDateTime.of(yearFinish, monthFinish, dayFinish,hourFinish,minuteFinish);
     }
 }

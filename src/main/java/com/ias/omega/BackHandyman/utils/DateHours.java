@@ -7,6 +7,7 @@ import com.ias.omega.BackHandyman.servicesdetail.aplication.others.HoursWorked;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class DateHours {
    public final static HoursWorked DATE_HOURS_WORKED =
            new HoursWorked("39","27","0","18","0","0");
 
-   public static Optional<HoursWorked> horasLboradas(){
+   public static Optional<HoursWorked> workedHours(){
        return Optional.of(new HoursWorked("39","27","0","18","0","0"));
    }
 
@@ -32,6 +33,10 @@ public class DateHours {
 
 
    }
+
+    public static List<ServicesDetail> listEmpty(){
+        return Arrays.asList();
+    }
 
 //   public final static List<ServicesDetail> DAYS_WORKED;
 //
@@ -63,6 +68,8 @@ public class DateHours {
       Date fecha = formato.parse(date);
       return fecha;
    }
+
+
 
 
 }

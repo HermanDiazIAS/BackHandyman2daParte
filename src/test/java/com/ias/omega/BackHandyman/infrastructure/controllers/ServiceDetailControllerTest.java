@@ -41,17 +41,20 @@ class ServiceDetailControllerTest {
         String week = "SEMANA30";
 
         HashMap<String, String> data = new HashMap<>();
-        data.put("idTechnical",idTechnical);
-        data.put("week",week);
+        data.put("idTechnical", idTechnical);
+        data.put("week", week);
 
-        when(queryServicesByTechnicalUseCase.execute(data)).thenReturn(DateHours.horasLboradas().orElseThrow());
+        when(queryServicesByTechnicalUseCase.execute(data)).thenReturn(DateHours.workedHours().orElseThrow());
 
-        mvc.perform(get("/api/servicesdetail/"+idTechnical+"/"+week+"").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/servicesdetail/" + idTechnical + "/" + week + "").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.normalHours").value("39"))
-                .andExpect(jsonPath("$.nightHours").value("27"));
-
-
+                .andExpect(jsonPath("$.nightHours").value("27"))
+                .andExpect(jsonPath("$.sundayHours").value("0"))
+                .andExpect(jsonPath("$.extraNormalHours").value("18"))
+                .andExpect(jsonPath("$.extraNightHours").value("0"))
+                .andExpect(jsonPath("$.extraSundayHours").value("0"));
     }
 }
+

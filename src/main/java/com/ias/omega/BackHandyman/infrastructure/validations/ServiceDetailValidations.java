@@ -61,7 +61,11 @@ public class ServiceDetailValidations {
             throw new RuntimeException("You cannot register a service with a previous rank greater than 7 days. ");
         }
     }
-
+    public void validationsServiceDetailException(int size){
+        if (!(size > 0)){
+            throw new RuntimeException("No days worked. ");
+        }
+    }
     public Integer calculateDifDays(Date startDate,Date endDate){
         Calendar dateOptional = Calendar.getInstance();
         dateOptional.setTime(startDate);
