@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ServiceDTO {
+
     @Autowired
     private ModelMapper modelMapper;
 
